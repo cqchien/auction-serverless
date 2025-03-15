@@ -1,0 +1,20 @@
+service: auction-service
+
+plugins:
+  - serverless-offline # Local development
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-southeast-1
+  stage: ${opt:stage, 'dev'}
+  logRetentionInDays: 180
+  versionFunctions: false
+  timeout: 30
+  environment:
+    STAGE: ${self:provider.stage}
+
+custom:
+  prefix: ${self:service}-${self:provider.stage}
+
+functions: ${file(./resources/functions.yml)}
