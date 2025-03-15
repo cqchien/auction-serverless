@@ -2,7 +2,12 @@
   "name": "serverless",
   "version": "1.0.0",
   "main": "index.ts",
-  "scripts": {},
+  "scripts": {
+    "test": "glob -c \"node --import tsx --test\" \"./test/**/*.test.ts\"",
+    "start": "serverless offline -s dev",
+    "deploy": "serverless deploy -s dev",
+    "build": "tsc --noemit"
+  },
   "author": "chiencq",
   "license": "ISC",
   "description": "A minimal project of Nodejs & Typescript & Serverless",
@@ -16,5 +21,8 @@
     "serverless-offline": "^14.4.0",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "glob": "^11.0.1"
   }
 }
