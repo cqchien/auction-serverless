@@ -3,13 +3,6 @@ import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import pluginPrettier from 'eslint-plugin-prettier';
-import fs from 'fs';
-import path from 'path';
-
-// Read Prettier config
-const prettierConfig = JSON.parse(
-  fs.readFileSync(path.resolve(process.cwd(), '.prettierrc'), 'utf8')
-);
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -48,9 +41,6 @@ export default [
       prettier: pluginPrettier,
     },
     rules: {
-      // Prettier rules
-      'prettier/prettier': ['warn', prettierConfig],
-
       // TypeScript and JavaScript rules
       '@typescript-eslint/no-unused-vars': [
         'warn',
