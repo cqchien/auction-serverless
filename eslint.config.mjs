@@ -1,6 +1,15 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
+import globals from 'globals';
+import pluginJs from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import pluginPrettier from 'eslint-plugin-prettier';
+import fs from 'fs';
+import path from 'path';
+
+// Read Prettier config
+const prettierConfig = JSON.parse(
+  fs.readFileSync(path.resolve(process.cwd(), '.prettierrc'), 'utf8')
+);
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -8,35 +17,72 @@ export default [
   {
     ignores: [
       // Ignore JavaScript files
-      "**/*.js",
+      '**/*.js',
       // Ignore test files
-      "**/*.test.ts",
-      "**/*.spec.ts",
+      '**/*.test.ts',
+      '**/*.spec.ts',
       // Additional patterns you might want to ignore
-      "dist/",
-      "node_modules/",
-      "build/",
+      'dist/',
+      'node_modules/',
+      'build/',
     ],
   },
-  // Apply to specific file types
-  { files: ["**/*.{mjs,cjs,ts}"] },
-  { languageOptions: { globals: globals.browser } },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  // Custom rule configuration
+
+  // Global settings
   {
-    rules: {
-      "@typescript-eslint/no-unused-vars": [
-        "warn", // or "error" if you want to enforce strictly
-        {
-          vars: "all", // check all variables
-          varsIgnorePattern: "^_", // ignore variables starting with _
-          args: "after-used", // check all arguments except the last
-          argsIgnorePattern: "^_", // ignore arguments starting with _
-          destructuredArrayIgnorePattern: "^_", // ignore destructured array elements starting with _
-          ignoreRestSiblings: true, // allow unused rest siblings
-        },
-      ],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
     },
   },
+
+  // Prettier integration
+  {
+    plugins: {
+      prettier: pluginPrettier,
+    },
+    rules: {
+      // Prettier rules
+      'prettier/prettier': ['warn', prettierConfig],
+
+      // TypeScript and JavaScript rules
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
+
+      // Additional recommended rules
+      'no-console': 'warn',
+      'no-debugger': 'warn',
+      'prefer-const': 'error',
+    },
+  },
+
+  // File-specific configurations
+  {
+    files: ['**/*.{ts,tsx,js,jsx}'],
+    rules: {
+      // Additional rules for TypeScript and JavaScript files
+    },
+  },
+
+  // Extend recommended configs
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
+
+  // Disable formatting rules that might conflict with Prettier
+  eslintConfigPrettier,
 ];

@@ -2,14 +2,15 @@
   "name": "serverless",
   "version": "1.0.0",
   "main": "index.ts",
+  "author": "chiencq",
   "scripts": {
     "test": "glob -c \"node --import tsx --test\" \"./test/**/*.test.ts\"",
     "start": "serverless offline -s dev",
     "lint": "eslint --ext .ts --fix .",
+    "prettier": "prettier --write --ignore-unknown .",
     "deploy": "serverless deploy -s dev",
     "build": "tsc --noemit"
   },
-  "author": "chiencq",
   "license": "ISC",
   "description": "A minimal project of Nodejs & Typescript & Serverless",
   "devDependencies": {
@@ -19,7 +20,10 @@
     "@types/node": "^22.13.10",
     "esbuild": "^0.25.1",
     "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
     "globals": "^16.0.0",
+    "prettier": "^3.5.3",
     "serverless": "^4.7.0",
     "serverless-esbuild": "^1.55.0",
     "serverless-offline": "^14.4.0",
