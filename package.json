@@ -9,7 +9,8 @@
     "lint": "eslint --ext .ts --fix .",
     "prettier": "prettier --write --ignore-unknown .",
     "deploy": "serverless deploy -s dev",
-    "build": "tsc --noemit"
+    "typecheck": "tsc --noemit",
+    "prepare": "husky install"
   },
   "license": "ISC",
   "description": "A minimal project of Nodejs & Typescript & Serverless",
@@ -29,7 +30,8 @@
     "serverless-offline": "^14.4.0",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2",
-    "typescript-eslint": "^8.26.1"
+    "typescript-eslint": "^8.26.1",
+    "husky": "^8.0.0"
   },
   "dependencies": {
     "glob": "^11.0.1"
