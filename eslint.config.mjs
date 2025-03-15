@@ -73,6 +73,5 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
 
-  // Disable formatting rules that might conflict with Prettier
   eslintConfigPrettier,
 ];
